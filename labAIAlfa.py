@@ -49,7 +49,6 @@ with open(ANNOTATION_TRAIN, "r") as csvfile:
     #Loop rows
     for row in rows:
         #Obtain each data from the csv
-        #row = row.split(",")
         (w, h, startX, startY, endX, endY, label, relativeFilePath) = row
 
         #Reading complete filepaths and images in OpenCV format
@@ -70,6 +69,28 @@ with open(ANNOTATION_TRAIN, "r") as csvfile:
         #debug for future
         # plt.imshow(image.astype(np.uint8))
         # plt.savefig(BASE_IN+"/img.jpg")
+
+        # update our list of data, class labels, bounding boxes, and
+        # image paths
+        data.append(image)
+        labels.append(label)
+        bboxes.append((startX, startY, endX, endY))
+        imagePaths.append(imagePath)
+
+
+# convert the data, class labels, bounding boxes, and image paths to
+# NumPy arrays, scaling the input pixel intensities from the range
+# [0, 255] to [0, 1]
+data = np.array(data, dtype="float32") / 255.0
+labels = np.array(labels)
+bboxes = np.array(bboxes, dtype="float32")
+imagePaths = np.array(imagePaths)
+
+# perform one-hot encoding on the labels
+lb = LabelBinarizer()
+labels = lb.fit_transform(labels)
+
+
 #
 #
 # # VGC-16
