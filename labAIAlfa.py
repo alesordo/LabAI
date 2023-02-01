@@ -3,7 +3,6 @@ import csv
 
 from preliminar.configuration import *
 
-import
 
 # TensorFlow and tf.keras
 from tensorflow import keras
@@ -26,10 +25,13 @@ import statistics
 import pathlib
 
 # Images, plots, display, and visualization
-#import matplotlib.pyplot as plt
+import matplotlib
+#matplotlib.use('TkAgg')
 import numpy as np
+import matplotlib.pyplot as plt
 import pickle
 import cv2
+
 import os
 
 
@@ -47,7 +49,6 @@ with open(ANNOTATION_TRAIN, "r") as csvfile:
     #Loop rows
     for row in rows:
         #Obtain each data from the csv
-        print(row)
         #row = row.split(",")
         (w, h, startX, startY, endX, endY, label, relativeFilePath) = row
 
@@ -66,8 +67,9 @@ with open(ANNOTATION_TRAIN, "r") as csvfile:
         image = load_img(imagePath, target_size=(224, 224))
         image = img_to_array(image)
 
-        plt.imshow(image, interpolation='nearest')
-        plt.show()
+        #debug for future
+        # plt.imshow(image.astype(np.uint8))
+        # plt.savefig(BASE_IN+"/img.jpg")
 #
 #
 # # VGC-16
